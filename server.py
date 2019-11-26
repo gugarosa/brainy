@@ -1,5 +1,6 @@
 from tornado.web import Application
 
+
 class Server(Application):
     """A class to hold and bootstrap all the application services.
 
@@ -25,5 +26,5 @@ class Server(Application):
         handlers = [
         ]
 
-        # Bootstraping the application class
-        Application.__init__(self, handlers, debug=True, autoreload=True)
+        # Overriding the Application class
+        super(Server, self).__init__(handlers, debug=True, autoreload=True)
