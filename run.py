@@ -2,8 +2,8 @@ import logging
 
 from tornado.ioloop import IOLoop
 
+import utils.constants as c
 from server import Server
-from utils import constants as c
 
 # Enables logging
 logging.basicConfig(
@@ -29,7 +29,7 @@ if __name__ == '__main__':
         app.listen(c.PORT)
 
         # Starts a IOLoop instance
-        IOLoop.instance().start()
+        IOLoop.current().start()
 
     except KeyboardInterrupt:
         exit()

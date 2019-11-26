@@ -1,7 +1,9 @@
 import configparser
 
-# Initializes the configuration object and parses it
+# Initializes the configuration object
 config = configparser.ConfigParser()
+
+# Parses the configuration object
 config.read('config.ini')
 
 # Loading constants

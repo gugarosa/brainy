@@ -1,5 +1,7 @@
 from tornado.web import Application
 
+from handlers.learner import LearnerHandler
+
 
 class Server(Application):
     """A class to hold and bootstrap all the application services.
@@ -24,6 +26,7 @@ class Server(Application):
 
         # Defining the handlers that will handle the requests
         handlers = [
+            (r'/api/learner', LearnerHandler, args)
         ]
 
         # Overriding the Application class
