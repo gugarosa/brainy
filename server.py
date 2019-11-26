@@ -1,7 +1,7 @@
 from tornado.web import Application
 
 from handlers.learner import LearnerHandler
-
+from utils.process_manager import ProcessManager
 
 class Server(Application):
     """A class to hold and bootstrap all the application services.
@@ -19,9 +19,13 @@ class Server(Application):
 
         """
 
+        # Defining the process manager
+        self.process_manager = ProcessManager()
+
         # Defining own arguments to be avaliable for the class
         args = {
             'config': config,
+            'process_manager': self.process_manager
         }
 
         # Defining the handlers that will handle the requests
