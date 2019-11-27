@@ -1,5 +1,8 @@
 import logging
+import signal
+import sys
 
+from tornado import autoreload
 from tornado.ioloop import IOLoop
 
 import utils.constants as c
@@ -13,23 +16,39 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+def handler(signal, frame):
+    """Forces the interruption signal to be intercepted by the main process.
+
+    Args:
+        signal ():
+        frame ():
+    
+    """
+
+    logging.warning("Terminating server")
+
+    #
+    sys.exit()
+
+
 if __name__ == '__main__':
     # Logging important information
     logging.info('Starting server ...')
 
-    # Tries to start a tornado webserver
-    try:
-        # Logs its port
-        logging.info(f'Port: {c.PORT}')
+    # Setting the responsibility of who will receive the interruption signal
+    signal.signal(signal.SIGINT, handler)
 
-        # Creates an application
-        app = Server(c.config)
+    # Logs its port
+    logging.info(f'Port: {c.PORT}')
 
-        # Servers the application on desired port
-        app.listen(c.PORT)
+    # Creates an application
+    app = Server(c.config)
 
-        # Starts a IOLoop instance
-        IOLoop.current().start()
+    #
+    autoreload.add_reload_hook(lambda: app.shutdown())
 
-    except KeyboardInterrupt:
-        exit()
+    # Servers the application on desired port
+    app.listen(c.PORT)
+
+    # Starts a IOLoop instance
+    IOLoop.current().start()

@@ -4,9 +4,8 @@ import signal
 import sys
 from multiprocessing import Process, Queue
 
-from tornado.ioloop import IOLoop
-
 import GPUtil
+from tornado.ioloop import IOLoop
 
 
 class ProcessManager():
@@ -60,8 +59,8 @@ class ProcessManager():
         """
         """
 
-        load_per_process = float(self.config.get("gpu", "gpu_load_per_process"))
-        mem_per_process = float(self.config.get("gpu", "gpu_mem_per_process"))
+        load_per_process = float(10)
+        mem_per_process = float(100)
         return load_per_process, mem_per_process
 
     def get_device_config(self):
