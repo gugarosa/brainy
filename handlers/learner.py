@@ -1,3 +1,4 @@
+import datetime
 import logging
 
 import tornado
@@ -45,7 +46,10 @@ class LearnerHandler(BaseHandler):
         # Creating the data object
         data = {
             'samples': samples,
-            'hyperparams': hyperparams
+            'hyperparams': hyperparams,
+            'callback': {
+                'start_time': datetime.datetime.utcnow().isoformat()
+            }
         }
         
         # Tries to add a new process to the pool
@@ -64,7 +68,7 @@ class LearnerHandler(BaseHandler):
             self.set_status(500)
 
             # Writing back an error message
-            self.finish(dict(error='Failed to add task to the pool.'))
+            self.finish(dict(error='Failed to add a new task to the pool.'))
 
             return False
 

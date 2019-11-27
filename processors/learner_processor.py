@@ -1,5 +1,7 @@
+import datetime
 import logging
-import spacy
+
+import utils.spacy as s
 
 
 class LearnerProcessor:
@@ -46,21 +48,31 @@ class LearnerProcessor:
 
         """
 
-        logging.info('Creating a blank model ...')
+        # Learns a new Spacy model
+        model_path = s.learn(task['samples'], task['hyperparams'])
 
-        #
-        nlp = spacy.blank('pt')
+        # Adding the time when the task has ended
+        task['callback']['end_time'] = datetime.datetime.utcnow().isoformat()
 
-        logging.info('Adding NER to model pipeline ...')
+        # Checks if model has been properly trained
+        if model_path is None:
+            # Adding an error status to the callback
+            task['callback']['status'] = 'error'
 
-        #
-        if 'ner' not in nlp.pipe_names:
-            #
-            ner = nlp.create_pipe('ner')
-            
-            #
-            nlp.add_pipe(ner, last=True)
-        
-        else:
-            #
-            ner = nlp.get_pipe('ner')
+            # Notify someone that the model has not been trained (callback)
+            logging.info('Sending callback ...')
+
+            # Raises a RuntimeError warning that model could not been properly trained
+            raise RuntimeError('Model could not been properly trained.')
+
+        # Adding a success status to the callback
+        task['callback']['status'] = 'success'
+
+        # Uploads model to AWS
+        logging.info('Uploading model ...')
+
+        # Deletes model from local disk
+        logging.info('Deleting model from disk ...')
+
+        # Notify someone that the model has been trained (callback)
+        logging.info('Sending callback ...')
