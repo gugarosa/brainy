@@ -1,7 +1,7 @@
-import tornado.web
+from tornado.web import RequestHandler
 
 
-class BaseHandler(tornado.web.RequestHandler):
+class BaseHandler(RequestHandler):
     """A handler class is defined by its main possible requests
     and other necessary functions.
 

@@ -12,7 +12,8 @@ class LearnerHandler(BaseHandler):
     """
 
     def initialize(self, **kwargs):
-        """
+        """Initializes the current handler.
+
         """
 
         # Gathers the config object from keyword arguments
@@ -55,6 +56,7 @@ class LearnerHandler(BaseHandler):
 
             return False
 
+        # Writing back a success message
         self.finish(dict(sucess='A new task has been added to the pool.'))
 
         return True

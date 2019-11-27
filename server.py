@@ -9,7 +9,7 @@ from utils.process_manager import ProcessManager
 
 
 class Server(Application):
-    """A class to hold and bootstrap all the application services.
+    """The Server class holds and bootstraps all the application services.
 
     """
 
