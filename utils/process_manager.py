@@ -123,7 +123,7 @@ class ProcessManager():
         def empty_process_pool(pool):
             for idx, p in enumerate(pool):
                 p.terminate()
-        def sig_handler(**args):
+        def sig_handler(*args):
             """Intercepts CTRL+C and exits gracefully."""
             empty_process_pool(cpu_pool)
             empty_process_pool(gpu_pool)

@@ -16,18 +16,14 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def handler(signal, frame):
+def signal_handler(*args):
     """Forces the interruption signal to be intercepted by the main process.
-
-    Args:
-        signal ():
-        frame ():
     
     """
 
-    logging.warning("Terminating server")
+    logging.warning("Interrupting the server ...")
 
-    #
+    # Exits the process
     sys.exit()
 
 
@@ -36,15 +32,15 @@ if __name__ == '__main__':
     logging.info('Starting server ...')
 
     # Setting the responsibility of who will receive the interruption signal
-    signal.signal(signal.SIGINT, handler)
+    signal.signal(signal.SIGINT, signal_handler)
 
     # Logs its port
     logging.info(f'Port: {c.PORT}')
 
     # Creates an application
-    app = Server(c.config)
+    app = Server()
 
-    #
+    # Adds an autoreload hook in order to properly shutdown the workers pool
     autoreload.add_reload_hook(lambda: app.shutdown())
 
     # Servers the application on desired port

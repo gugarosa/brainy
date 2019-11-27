@@ -8,3 +8,4 @@ config.read('config.ini')
 
 # Loading constants
 PORT = config.get('API', 'PORT')
+LEARNER_WORKERS = config.get('WORKERS', 'LEARNER')

@@ -14,7 +14,7 @@ class LearnerProcessor:
         so any internal asynchronous exception will stay trapped here and logged explicitly.
 
         Args:
-            task (Process): The task to be consumed.
+            task (dict): The task to be consumed.
 
         """
 
@@ -41,7 +41,7 @@ class LearnerProcessor:
         cython sub-objects).
 
         Args:
-            task (Process): The task to be consumed.
+            task (dict): The task to be consumed.
 
         """
 

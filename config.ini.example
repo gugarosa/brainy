@@ -1,2 +1,5 @@
 [API]
 PORT = 8080
+
+[WORKERS]
+LEARNER = 5
