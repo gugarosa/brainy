@@ -34,15 +34,27 @@ class LearnerHandler(BaseHandler):
         """
 
         # Getting request object
-        res = tornado.escape.json_decode(self.request.body)
+        req = tornado.escape.json_decode(self.request.body)
 
+        # Gathering the samples
+        samples = req['samples']
+
+        # Gathering the hyperparams
+        hyperparams = req['hyperparams']
+        
+        # Creating the data object
+        data = {
+            'samples': samples,
+            'hyperparams': hyperparams
+        }
+        
         # Tries to add a new process to the pool
         try:
             logging.info('Adding learner task to the pool ...')
 
             # Adding process to the pool
             self.process_manager.add_process(
-                {'target': self.processor, 'data': res})
+                {'target': self.processor, 'data': data})
 
         # If process could not be added to the pool, reply with an error
         except Exception as e:

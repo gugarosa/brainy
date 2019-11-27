@@ -1,4 +1,5 @@
 import logging
+import spacy
 
 
 class LearnerProcessor:
@@ -20,12 +21,12 @@ class LearnerProcessor:
 
         # Tries to consume the task
         try:
-            logging.info('Starting to learn model ...')
+            logging.info('Sending task to worker in the pool ...')
 
             # Actually consumes the task
             self._invoke_consume(task)
 
-            logging.info('Finished learning model.')
+            logging.info('Worker has finished the task.')
 
         # If an exception has happened, logs it
         except Exception as e:
@@ -45,4 +46,21 @@ class LearnerProcessor:
 
         """
 
-        pass
+        logging.info('Creating a blank model ...')
+
+        #
+        nlp = spacy.blank('pt')
+
+        logging.info('Adding NER to model pipeline ...')
+
+        #
+        if 'ner' not in nlp.pipe_names:
+            #
+            ner = nlp.create_pipe('ner')
+            
+            #
+            nlp.add_pipe(ner, last=True)
+        
+        else:
+            #
+            ner = nlp.get_pipe('ner')
