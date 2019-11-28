@@ -1,5 +1,6 @@
 import datetime
 import logging
+import os
 
 import utils.spacy as s
 
@@ -69,7 +70,11 @@ class LearnerProcessor:
         task['callback']['status'] = 'success'
 
         # Uploads model to AWS
-        logging.info('Uploading model ...')
+        # logging.info('Uploading model ...')
+
+        # Deleting model from disk
+        # logging.info('Deleting model from local disk ...')
+        # os.remove(model_path)
 
         # Notify someone that the model has been trained (callback)
-        logging.info('Sending callback ...')
+        # logging.info('Sending callback ...')

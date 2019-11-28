@@ -163,12 +163,10 @@ def learn(language, samples, hyperparams):
 
             logging.debug(f"Loss: {loss['ner']}")
 
-        logging.info('Saving model into local disk ...')
-
         # Persisting model to disk
         model_path = _persist('models/', '1', nlp)
 
-        logging.info(f'Model saved to: {model_path}')
+        logging.info(f'Saving model to: {model_path}')
 
     # If there is an exception
     except Exception as e:
@@ -178,3 +176,22 @@ def learn(language, samples, hyperparams):
         return None
 
     return model_path
+
+
+def load(self, model_path):
+    """Loads a Spacy's model.
+
+    Args:
+        model_path (str): Path of the model to be loaded.
+
+    Returns:
+        The loaded model object itself.
+
+    """
+
+    logging.info(f'Loading model from: {model_path}')
+
+    # Actually loads the model
+    model = spacy.load(model_path)
+
+    return model
