@@ -1,10 +1,12 @@
 import logging
+import os
 import random
-
-from pathlib import Path
+import tempfile
 
 import spacy
 from spacy.util import compounding, minibatch
+
+import utils.file as f
 
 
 def _parse_samples(samples):
@@ -32,13 +34,40 @@ def _parse_samples(samples):
             entities.append((ent['start'], ent['end'], ent['label']))
 
         # Appends the whole tuple to the data's list
-        data.append((s['text'],
-                     {
-            'entities': entities
-        }
-        ))
+        data.append((s['text'], {'entities': entities}))
 
     return data
+
+
+def _persist(path, _id, model):
+    """Stores the model to the disk.
+
+    Args:
+        path (str): Folder where the zipfile will be created.
+        _id (str): Model's identifier.
+        model (Spacy): Model's object.
+
+    Returns:
+        The path to the generated zipfile.
+
+    """
+
+    # Creates a temporary directory
+    stash_dir = tempfile.TemporaryDirectory()
+
+    # Creates the full path itself
+    model_path = os.path.join(path, _id)
+
+    # Saves the model to disk
+    model.to_disk(stash_dir.name)
+
+    # Zips the file
+    zip_path = f.zip_file(stash_dir.name, model_path + '.zip', _id)
+
+    # Cleans up the temporary directory
+    stash_dir.cleanup()
+
+    return zip_path
 
 
 def learn(language, samples, hyperparams):
@@ -81,7 +110,7 @@ def learn(language, samples, hyperparams):
             # Adds its corresponding label
             ner.add_label(ent[2])
 
-    logging.info(f'Training the model with: {hyperparams}')
+    logging.info(f'Training model with: {hyperparams}')
 
     # Starts the training
     nlp.begin_training()
@@ -109,15 +138,11 @@ def learn(language, samples, hyperparams):
 
         logging.debug(f"Loss: {loss['ner']}")
 
-    # Saving model to disk
-    output_dir = Path('models')
+    logging.info('Saving model into local disk ...')
 
-    #
-    if not output_dir.exists():
-        #
-        output_dir.mkdir()
-    
-    #
-    nlp.to_disk(output_dir)
+    # Persisting model to disk
+    model_path = _persist('models/', '1', nlp)
 
-    print("Saved model to", output_dir)
+    logging.info(f'Model saved to: {model_path}')
+
+    return model_path

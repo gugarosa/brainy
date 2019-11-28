@@ -71,8 +71,5 @@ class LearnerProcessor:
         # Uploads model to AWS
         logging.info('Uploading model ...')
 
-        # Deletes model from local disk
-        logging.info('Deleting model from disk ...')
-
         # Notify someone that the model has been trained (callback)
         logging.info('Sending callback ...')
