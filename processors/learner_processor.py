@@ -49,7 +49,7 @@ class LearnerProcessor:
         """
 
         # Learns a new Spacy model
-        model_path = s.learn(task['samples'], task['hyperparams'])
+        model_path = s.learn(task['language'], task['samples'], task['hyperparams'])
 
         # Adding the time when the task has ended
         task['callback']['end_time'] = datetime.datetime.utcnow().isoformat()

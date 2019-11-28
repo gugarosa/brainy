@@ -37,6 +37,9 @@ class LearnerHandler(BaseHandler):
         # Getting request object
         req = tornado.escape.json_decode(self.request.body)
 
+        # Gathering the model's language
+        language = req['language']
+
         # Gathering the samples
         samples = req['samples']
 
@@ -45,6 +48,7 @@ class LearnerHandler(BaseHandler):
         
         # Creating the data object
         data = {
+            'language': language,
             'samples': samples,
             'hyperparams': hyperparams,
             'callback': {
