@@ -83,66 +83,98 @@ def learn(language, samples, hyperparams):
 
     """
 
-    logging.info(f'Creating a blank `{language}` model ...')
+    # Tries to learn a new model
+    try:
 
-    # Creating a blank model
-    nlp = spacy.blank(language)
+        logging.info(f'Creating a blank `{language}` model ...')
 
-    logging.info('Adding NER to model pipeline ...')
+        # Creating a blank model
+        nlp = spacy.blank(language)
 
-    # Creating a NER pipeline
-    ner = nlp.create_pipe('ner')
+        logging.info('Adding NER to model pipeline ...')
 
-    # Adding the pipeline to the model itself
-    nlp.add_pipe(ner, last=True)
+        # Creating a NER pipeline
+        ner = nlp.create_pipe('ner')
 
-    logging.info('Parsing samples to Spacy data structure ...')
+        # Adding the pipeline to the model itself
+        nlp.add_pipe(ner, last=True)
 
-    # Parsing samples to Spacy's format
-    train_data = _parse_samples(samples)
+        logging.info('Parsing samples to Spacy data structure ...')
 
-    logging.info('Adding entities to the model ...')
+        # Parsing samples to Spacy's format
+        train_data = _parse_samples(samples)
 
-    # For each possible example in the data
-    for _, d in train_data:
-        # For each possible entity in the sample
-        for ent in d.get('entities'):
-            # Adds its corresponding label
-            ner.add_label(ent[2])
+        logging.info('Adding entities to the model ...')
 
-    logging.info(f'Training model with: {hyperparams}')
+        # For each possible example in the data
+        for _, d in train_data:
+            # For each possible entity in the sample
+            for ent in d.get('entities'):
+                # Adds its corresponding label
+                ner.add_label(ent[2])
 
-    # Starts the training
-    nlp.begin_training()
+        # Check if hyperparams are avaliable
+        # Checking number of iterations
+        if 'n_iterations' not in hyperparams:
+            hyperparams['n_iterations'] = 100
 
-    # For each iteration
-    for t in range(hyperparams['n_iterations']):
-        logging.debug(f"Iteration {t+1}/{hyperparams['n_iterations']}")
+        # Checking dropout
+        if 'dropout' not in hyperparams:
+            hyperparams['dropout'] = 0.5
 
-        # Randomize the training data
-        random.shuffle(train_data)
+        # Checking learning rate
+        if 'lr' not in hyperparams:
+            hyperparams['lr'] = 0.001
 
-        # Creates an empty dictionary to hold the losses
-        loss = {}
+        # Checking batch size
+        if 'batch_size' not in hyperparams:
+            hyperparams['batch_size'] = 32
 
-        # Creates the minibatches
-        batches = minibatch(train_data, size=compounding(4.0, 32.0, 1.001))
+        logging.info(f'Training model with: {hyperparams}')
 
-        # For every batch
-        for batch in batches:
-            # Zips the batch with texts and labels
-            texts, labels = zip(*batch)
+        # Starts the training
+        optimizer = nlp.begin_training()
 
-            # Updates the model
-            nlp.update(texts, labels, drop=0.5, losses=loss)
+        # Applying new hyperparams
+        optimizer.alpha = hyperparams['lr']
 
-        logging.debug(f"Loss: {loss['ner']}")
+        # For each iteration
+        for t in range(hyperparams['n_iterations']):
+            logging.debug(f"Iteration {t+1}/{hyperparams['n_iterations']}")
 
-    logging.info('Saving model into local disk ...')
+            # Randomize the training data
+            random.shuffle(train_data)
 
-    # Persisting model to disk
-    model_path = _persist('models/', '1', nlp)
+            # Creates an empty dictionary to hold the losses
+            loss = {}
 
-    logging.info(f'Model saved to: {model_path}')
+            # Creates the minibatches
+            batches = minibatch(train_data, size=compounding(
+                4.0, hyperparams['batch_size'], 1.001))
+
+            # For every batch
+            for batch in batches:
+                # Zips the batch with texts and labels
+                texts, labels = zip(*batch)
+
+                # Updates the model
+                nlp.update(
+                    texts, labels, drop=hyperparams['dropout'], sgd=optimizer, losses=loss)
+
+            logging.debug(f"Loss: {loss['ner']}")
+
+        logging.info('Saving model into local disk ...')
+
+        # Persisting model to disk
+        model_path = _persist('models/', '1', nlp)
+
+        logging.info(f'Model saved to: {model_path}')
+
+    # If there is an exception
+    except Exception as e:
+        # Logs the exception
+        logging.exception(e)
+
+        return None
 
     return model_path
