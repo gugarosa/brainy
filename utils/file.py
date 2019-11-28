@@ -3,61 +3,75 @@ import zipfile
 from zipfile import ZipFile
 
 
-def zip_file(temp_folder: str, destination_zip_path: str, version_id: str) -> str:
-    """Creates a zipfile will all contents of a folder.
+def zip_file(temp_folder, dest_path, _id):
+    """Creates a .zip from a specific folder.
 
-    :param temp_folder: The folder that will have all of its contents on the
-    first level zipped.
-    :param destination_zip_path: Where the zipfile is going to be created.
-    :param version_id: The ID of the current version
-    :return: The path to the zipped file.
+    Args:
+        temp_folder (str): A temporary folder to have its contents zipped.
+        dest_path (str): The destination path of the .zip.
+        _id (str): Model's identifier.
+
+    Returns:
+        The path to the zipped file.
+
     """
 
-    temp_zipfile = ZipFile(file=destination_zip_path, mode='w', compression=zipfile.ZIP_BZIP2)
+    # Creates a temproary ZipFile
+    temp_zipfile = ZipFile(file=dest_path, mode='w',
+                           compression=zipfile.ZIP_BZIP2)
 
-    # os.walk returns three values: path to the current folder, folders within
-    # this folder and files on this folder. The problem is that the path to the
-    # current folder (main_root) is absolute (ie: starts on the main '/'). We
-    # need to get rid of this to generate a zipfile starting from the main_root,
-    # and not from /.
-    # In order to do so, we keep track of main_root and generate a lambda that
-    # replaces this part of the path by the model's version ID, as the generated
-    # zip will contain only a folder, named with the model ID (hence the
-    # replacement) and within it the files generated while training the model.
+    # Gathering the initial root path
     main_root = list(os.walk(temp_folder))[0][0]
 
-    format_name = lambda path: os.path.join(version_id, root, filename).replace(
-        main_root, version_id)
+    # Defines a function to format the path's name
+    def format_name(path): return os.path.join(
+        _id, root, filename).replace(main_root, _id)
 
-    for root, dirs, files in os.walk(temp_folder):
+    # For every possible directory in the temporary folder
+    for root, _, files in os.walk(temp_folder):
+        # For every possible file in the files
         for filename in files:
+            # Gathers the original path
             original_path = os.path.join(root, filename)
+
+            # Writes the file to the ZipFile
             temp_zipfile.write(original_path, arcname=format_name(filename))
 
+    # Closes the temporary ZipFile
     temp_zipfile.close()
+
     return temp_zipfile.filename
 
 
-def unzip_file(zip_path: str, destination_path: str, version_id: str) -> str:
-    """
-    Inflates the zipfile in a folder created within the destionation_path. This
-    folder will have as name the id of the model's version.
+def unzip_file(zip_path, dest_path, _id):
+    """ Inflates the zipfile in a folder created within the destination path.
 
-    :param self: Self object.
-    :param default_path: Default path of saved models
-    :param version_id: ID of trained version.
-    :return: Unzipped file path.
+    The folder will have as name the model's identifier.
+
+    Args:
+        zip_path (str): The path to the .zip file.
+        dest_path (str): The destination path of the unzipped files.
+        _id (str): Model's identifier.
+
+    Returns:
+        The path to the unzipped files.
+
     """
 
-    import logging
-    logging.info('Unzipping {}'.format(zip_path))
+    # Creates a zip object
     zip_object = ZipFile(zip_path)
 
-    # creates a new folder within the destination path that has as name the
-    # id of the model version.
-    if version_id:
-        destination = os.path.join(destination_path, version_id)
+    # If there is an identifier
+    if _id:
+        # Joins the path
+        final_dest = os.path.join(dest_path, _id)
+
+    # If there is no identifier
     else:
-        destination = destination_path
-    zip_object.extractall(destination_path)
-    return destination
+        # Marks the destionation path as the initial variable
+        final_dest = dest_path
+
+    # Extracts the zip object
+    zip_object.extractall(dest_path)
+
+    return final_dest
