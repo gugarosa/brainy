@@ -2,10 +2,12 @@ import logging
 import os
 import random
 import tempfile
+import uuid
 
 import spacy
 from spacy.util import compounding, minibatch
 
+import utils.constants as c
 import utils.file as f
 
 
@@ -163,8 +165,11 @@ def learn(language, samples, hyperparams):
 
             logging.debug(f"Loss: {loss['ner']}")
 
+        # Creating an unique identifier
+        _id = str(uuid.uuid4())
+
         # Persisting model to disk
-        model_path = _persist('models/', '1', nlp)
+        model_path = _persist(c.DEFAULT_PATH, _id, nlp)
 
         logging.info(f'Saving model to: {model_path}')
 
@@ -178,7 +183,42 @@ def learn(language, samples, hyperparams):
     return model_path
 
 
-def load(self, model_path):
+def predict(model, samples):
+    """
+    """
+
+    # Creates an empty list for the predictions
+    preds = []
+
+    # Iterate through every possible sample
+    for s in samples:
+        # Predicts using the model
+        res = model(s['text'])
+
+        # Creates an empty list for the entities
+        entities = []
+
+        # Creates a list of every possible predicted entity
+        for e in res.ents:
+            # Appends a new object with the entity structure
+            entities.append({
+                'value': e.text,
+                'start': e.start_char,
+                'end': e.end_char,
+                'label': e.label_
+            })
+
+        # Appends the entities to the prediction
+        preds.append({
+            'text': s['text'],
+            'entities': entities
+        })
+
+    return preds
+
+
+
+def load(model_path):
     """Loads a Spacy's model.
 
     Args:

@@ -6,8 +6,18 @@ config = configparser.ConfigParser()
 # Parses the configuration object
 config.read('config.ini')
 
-# Loading constants
+# Gathering and defining constants
+# API's port
 PORT = config.get('API', 'PORT')
+
+# Amount of learner workers
 LEARNER_WORKERS = config.get('WORKERS', 'LEARNER')
+
+# Maximum load of GPU per process
 GPU_MAX_LOAD = config.get('GPU', 'MAX_LOAD')
+
+# Maximum memory of GPU per process
 GPU_MAX_MEMORY = config.get('GPU', 'MAX_MEMORY')
+
+# Default path to save the models
+DEFAULT_PATH = 'models/'

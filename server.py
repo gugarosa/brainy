@@ -5,6 +5,7 @@ from tornado.web import Application
 
 import utils.constants as c
 from handlers.learner import LearnerHandler
+from handlers.predictor import PredictorHandler
 from utils.process_manager import ProcessManager
 
 
@@ -35,7 +36,8 @@ class Server(Application):
 
         # Defining the handlers that will handle the requests
         handlers = [
-            (r'/api/learner', LearnerHandler, args)
+            (r'/api/learner', LearnerHandler, args),
+            (r'/api/predictor', PredictorHandler, args)
         ]
 
         # Overriding the Application class
