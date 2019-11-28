@@ -40,23 +40,31 @@ class PredictorHandler(BaseHandler):
         samples = req['samples']
 
         # Creates a variable with .zip model's file
-        model_path = os.path.join(c.DEFAULT_PATH, _id + '.zip')
+        model_path = os.path.join(c.DEFAULT_PATH, _id)
 
         # If there is no avaliable model
         if not os.path.exists(model_path):
-            logging.error(f'Could not find {model_path}')
+            # Tries to unzip the model
+            try:
+                # Creates a zipped file path
+                model_path_zip = model_path + '.zip'
 
-            # Returns an error
-            self.set_status(500)
+                # Unzips the model
+                model_path = f.unzip_file(model_path_zip, c.DEFAULT_PATH, _id)
 
-            # Writing back an error message
-            self.finish(
-                dict(error='There is no avaliable model with such identifier.'))
+                logging.info(f'Model unzipped to folder: {model_path}')
 
-            return False
+            except FileNotFoundError:
+                logging.error(f'Could not find {model_path_zip}')
 
-        # Unzips the model
-        model_path = f.unzip_file(model_path, c.DEFAULT_PATH, _id)
+                # Returns an error
+                self.set_status(500)
+
+                # Writing back an error message
+                self.finish(
+                    dict(error='There is no avaliable model with such identifier.'))
+
+                return False
 
         # Loads the model
         model = s.load(model_path)
