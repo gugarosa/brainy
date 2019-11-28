@@ -8,6 +8,9 @@
 # Configuration file
 config.ini
 
+# Trained models
+models/**
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
