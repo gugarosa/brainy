@@ -45,7 +45,7 @@ class LearnerHandler(BaseHandler):
 
         # Gathering the hyperparams
         hyperparams = req['hyperparams']
-        
+
         # Creating the data object
         data = {
             'language': language,
@@ -55,7 +55,7 @@ class LearnerHandler(BaseHandler):
                 'start_time': datetime.datetime.utcnow().isoformat()
             }
         }
-        
+
         # Tries to add a new process to the pool
         try:
             logging.info('Adding learner task to the pool ...')

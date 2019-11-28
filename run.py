@@ -6,7 +6,7 @@ from tornado import autoreload
 from tornado.ioloop import IOLoop
 
 import utils.constants as c
-from server import Server
+from utils.server import Server
 
 # Enables logging
 logging.basicConfig(

@@ -1,0 +1,82 @@
+{
+	"info": {
+		"_postman_id": "4fd252c2-7fc0-415a-a532-7f4c791acb10",
+		"name": "Learner",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "learner",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"language\": \"en\",\n\t\"samples\": [\n\t\t{\n\t\t\t\"text\": \"Who is Shaka Kan\",\n\t\t\t\"entities\": [\n\t\t\t\t{\n\t\t\t\t\t\"start\": 7,\n\t\t\t\t\t\"end\": 17,\n\t\t\t\t\t\"label\": \"PERSON\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"text\": \"I Like London and Berlin.\",\n\t\t\t\"entities\": [\n\t\t\t\t{\n\t\t\t\t\t\"start\": 7,\n\t\t\t\t\t\"end\": 13,\n\t\t\t\t\t\"label\": \"LOC\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"start\": 18,\n\t\t\t\t\t\"end\": 24,\n\t\t\t\t\t\"label\": \"LOC\"\n\t\t\t\t}\n\t\t\t]\n\t\t}\n    ],\n\t\"hyperparams\": {\n\t\t\"n_iterations\": 100,\n\t\t\"dropout\": 0.5,\n\t\t\"lr\": 0.001,\n\t\t\"batch_size\": 32\n\t}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/learner",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"learner"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "predictor",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"_id\": \"08eed4cd-c579-4a54-b6a8-c1b7fb113362\",\n\t\"samples\": [\n\t\t{\n\t\t\t\"text\": \"I want to go to London.\"\n\t\t},\n\t\t{\n\t\t\t\"text\": \"Who is Shaka Kan\"\n\t\t}\n\t]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/predictor",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"predictor"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -184,7 +184,15 @@ def learn(language, samples, hyperparams):
 
 
 def predict(model, samples):
-    """
+    """Predicts new samples using the pre-trained model.
+
+    Args:
+        model (Spacy): A pre-trained Spacy's model.
+        samples (list): A list of samples to be predicted.
+
+    Returns:
+        An already-structured predictions object.
+
     """
 
     # Creates an empty list for the predictions
@@ -215,7 +223,6 @@ def predict(model, samples):
         })
 
     return preds
-
 
 
 def load(model_path):
