@@ -233,6 +233,7 @@ class SpacyLearner(BaseLearner):
 
             return None
 
+        # Outputs the scorer metrics to a specific variable
         metrics = scorer.scores
 
         return metrics
