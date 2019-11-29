@@ -192,14 +192,52 @@ class FasttextLearner(BaseLearner):
 
         return model_path
 
-    def evaluate(self):
-        """
+    def evaluate(self, samples):
+        """Evaluates a trained model.
+
+        Args:
+            samples (list): A list of samples to be evaluated.
+
+        Returns:
+            The metrics of the evaluation.
+
         """
 
-        pass
+        # Tries to evaluate a trained model
+        try:
+            # Parsing samples to Fasttext's format
+            test_data = self._parse(samples)
+
+            # Creates a temporary file
+            test = tempfile.NamedTemporaryFile(
+                'w', delete=False, encoding='utf-8')
+
+            # Dumps the data to a temporary file
+            self._write_file(test_data, test)
+
+            logging.info('Evaluating model ...')
+
+            # Evaluating model
+            m = self.model.test(test.name)
+
+        # If there is an exception
+        except Exception as e:
+            # Logs the exception
+            logging.exception(e)
+
+            return None
+
+        # Creating an object of metrics
+        metrics = {
+            'n_samples': m[0],
+            'precision': m[1],
+            'recall': m[2]
+        }
+
+        return metrics
 
     def predict(self, samples):
-        """Predicts new samples using the pre-trained model.
+        """Predicts new samples using the trained model.
 
         Args:
             samples (list): A list of samples to be predicted.

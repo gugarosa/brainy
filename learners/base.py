@@ -75,7 +75,7 @@ class BaseLearner():
             'The method `fit` should be implemented in the child.')
 
     def evaluate(self, samples):
-        """Evaluates a pre-trained learner.
+        """Evaluates a trained learner.
 
         Args:
             samples (list): A list of samples to be evaluated.
@@ -89,7 +89,7 @@ class BaseLearner():
             'The method `evaluate` should be implemented in the child.')
 
     def predict(self, samples):
-        """Predicts new inputs using a pre-trained learner.
+        """Predicts new inputs using a trained learner.
 
         Args:
             samples (list): A list of samples to be predicted.

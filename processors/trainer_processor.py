@@ -65,6 +65,9 @@ class TrainerProcessor:
         # Learns a new model
         model_path = l.fit(task['language'], task['samples'], task['hyperparams'])
 
+        # Adding the model's path to the callback
+        task['callback']['path'] = model_path
+
         # Adding the time when the task has ended
         task['callback']['end_time'] = datetime.datetime.utcnow().isoformat()
 
@@ -81,6 +84,8 @@ class TrainerProcessor:
 
         # Adding a success status to the callback
         task['callback']['status'] = 'success'
+
+        logging.debug(f"Task callback: {task['callback']}")
 
         # Uploads model to AWS
         # logging.info('Uploading model ...')
