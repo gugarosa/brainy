@@ -3,10 +3,10 @@ import os
 
 import tornado
 
-import learners.spacy as s
 import utils.constants as c
 import utils.file as f
 from handlers.base import BaseHandler
+from learners.spacy import SpacyLearner
 
 
 class PredictorHandler(BaseHandler):
@@ -34,12 +34,15 @@ class PredictorHandler(BaseHandler):
         req = tornado.escape.json_decode(self.request.body)
 
         # Gathering the model's identifier
-        _id = req['_id']
+        _id = req['id']
+
+        # Gathering the model's type
+        _type = req['type']
 
         # Gathering the samples
         samples = req['samples']
 
-        # Creates a variable with .zip model's file
+        # Creates a variable with the .zip model's file path
         model_path = os.path.join(c.DEFAULT_PATH, _id)
 
         # If there is no avaliable model
@@ -66,13 +69,18 @@ class PredictorHandler(BaseHandler):
 
                 return False
 
+        # Checks if the learner's type is from Spacy
+        if _type == 'spacy':
+            # If yes, creates a SpacyLearner
+            l = SpacyLearner()
+
         # Loads the model
-        model = s.load(model_path)
+        l.load(model_path)
 
         # Tries to perform the prediction
         try:
             # Actually performs the prediction
-            preds = s.predict(model, samples)
+            preds = l.predict(samples)
 
         # If prediction could not be realized, reply with an error
         except Exception as e:

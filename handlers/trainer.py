@@ -37,6 +37,9 @@ class TrainerHandler(BaseHandler):
         # Getting request object
         req = tornado.escape.json_decode(self.request.body)
 
+        # Gathering the task's type
+        _type = req['type']
+
         # Gathering the model's language
         language = req['language']
 
@@ -48,6 +51,7 @@ class TrainerHandler(BaseHandler):
 
         # Creating the data object
         data = {
+            'type': _type,
             'language': language,
             'samples': samples,
             'hyperparams': hyperparams,

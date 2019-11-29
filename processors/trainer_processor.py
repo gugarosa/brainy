@@ -3,6 +3,7 @@ import logging
 import os
 
 import learners.spacy as s
+from learners.spacy import SpacyLearner
 
 
 class TrainerProcessor:
@@ -49,8 +50,13 @@ class TrainerProcessor:
 
         """
 
-        # Learns a new Spacy model
-        model_path = s.learn(task['language'], task['samples'], task['hyperparams'])
+        # Checks if the task's type is from Spacy
+        if task['type'] == 'spacy':
+            # Creates a SpacyLearner
+            l = SpacyLearner()
+
+        # Learns a new model
+        model_path = l.fit(task['language'], task['samples'], task['hyperparams'])
 
         # Adding the time when the task has ended
         task['callback']['end_time'] = datetime.datetime.utcnow().isoformat()
