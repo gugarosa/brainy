@@ -5,6 +5,8 @@ import tempfile
 import uuid
 
 import spacy
+from spacy.gold import GoldParse
+from spacy.scorer import Scorer
 from spacy.util import compounding, minibatch
 
 import utils.constants as c
@@ -193,7 +195,7 @@ class SpacyLearner(BaseLearner):
 
         return model_path
 
-    def evaluate(self):
+    def evaluate(self, samples):
         """Evaluates a trained model.
 
         Args:
@@ -204,7 +206,36 @@ class SpacyLearner(BaseLearner):
 
         """
 
-        pass
+        # Tries to learn a new model
+        try:
+            # Parsing samples to Spacy's format
+            test_data = self._parse(samples)
+
+            # Creates a scorer object
+            scorer = Scorer()
+
+            # For each sample in the testing data
+            for text, label in test_data:
+                # Creates a GoldParse object with the correct annotation
+                correct = GoldParse(self.model.make_doc(
+                    text), entities=label['entities'])
+
+                # Calculates the prediction
+                pred = self.model(text)
+
+                # Evaluates the prediction according to correct label
+                scorer.score(pred, correct)
+
+        # If there is an exception
+        except Exception as e:
+            # Logs the exception
+            logging.exception(e)
+
+            return None
+
+        metrics = scorer.scores
+
+        return metrics
 
     def predict(self, samples):
         """Predicts new samples using the pre-trained model.
