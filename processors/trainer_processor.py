@@ -2,6 +2,7 @@ import datetime
 import logging
 import os
 
+from learners.fasttext import FasttextLearner
 from learners.spacy import SpacyLearner
 
 
@@ -55,6 +56,11 @@ class TrainerProcessor:
         if task['type'] == 'spacy':
             # Creates a SpacyLearner
             l = SpacyLearner()
+
+        # Checks if the task's type is from Fasttext
+        elif task['type'] == 'fasttext':
+            # Creates a FasttextLearner
+            l = FasttextLearner()
 
         # Learns a new model
         model_path = l.fit(task['language'], task['samples'], task['hyperparams'])

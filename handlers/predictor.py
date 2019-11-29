@@ -6,6 +6,7 @@ import tornado
 import utils.constants as c
 import utils.file as f
 from handlers.base import BaseHandler
+from learners.fasttext import FasttextLearner
 from learners.spacy import SpacyLearner
 
 
@@ -73,6 +74,10 @@ class PredictorHandler(BaseHandler):
         if _type == 'spacy':
             # If yes, creates a SpacyLearner
             l = SpacyLearner()
+
+        # Checks if the learner's type is from Fasttext
+        elif _type == 'fasttext':
+            l = FasttextLearner()
 
         # Loads the model
         l.load(model_path)

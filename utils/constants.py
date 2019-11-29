@@ -24,3 +24,6 @@ GPU_MAX_MEMORY = config.get('GPU', 'MAX_MEMORY')
 
 # Default path to save the models
 DEFAULT_PATH = 'models/'
+
+# Default Fasttext model's name
+DEFAULT_FASTTEXT_MODEL = 'model.bin'

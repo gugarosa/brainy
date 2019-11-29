@@ -12,7 +12,8 @@ import utils.file as f
 from learners.base import BaseLearner
 
 class SpacyLearner(BaseLearner):
-    """
+    """A SpacyLearner is in charge of training, evaluating and predicting Spacy's models.
+    
     """
 
     def __init__(self):
@@ -96,7 +97,7 @@ class SpacyLearner(BaseLearner):
         self.model = spacy.load(model_path)
 
     def fit(self, language, samples, hyperparams):
-        """Learns a new Named Entity Recognition Model through Spacy.
+        """Learns a new Named Entity Recognition model through Spacy.
 
         Args:
             language (str): The language of the model to be learned.
