@@ -77,6 +77,7 @@ class PredictorHandler(BaseHandler):
 
         # Checks if the learner's type is from Fasttext
         elif _type == 'fasttext':
+            # If yes, creates a FasttextLearner
             l = FasttextLearner()
 
         # Loads the model

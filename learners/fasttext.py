@@ -55,8 +55,6 @@ class FasttextLearner(BaseLearner):
             # Appends the whole tuple to the data's list
             data.append(intents + s['text'])
 
-        print(data)
-
         return data
 
     def _persist(self):
@@ -87,18 +85,24 @@ class FasttextLearner(BaseLearner):
     def _write_file(self, input_data, output_file):
         """Dumps data to a temporary file.
 
-        :param input_data: Input data to be dumped.
-        :param output_file: Output file to be saved.
-        :return: None.
+        Args:
+            input_data (list): Input data to be dumped.
+            output_file (str): Output file to be saved.
+
         """
 
+        # Gathers all the data into a string
         data = '\n'.join(input_data)
+
+        # Writes the file
         output_file.write(data)
+
+        # Closes the file
         output_file.close()
 
 
     def load(self, model_path):
-        """Loads a Spacy's model.
+        """Loads a Fasttext's model.
 
         Args:
             model_path (str): Path of the model to be loaded.
@@ -172,5 +176,23 @@ class FasttextLearner(BaseLearner):
 
         # Creates an empty list for the predictions
         preds = []
+
+        # Iterate through every possible sample
+        for s in samples:
+            # Predicts using the model
+            res = self.model.predict(s['text'])
+
+            # Gathering and formatting the prediction's intent
+            intent = res[0][0].replace('__label__', '').upper()
+
+            # Gathering and formatting the prediction's intent probability
+            prob = res[1][0]
+
+            # Appends the prediction to the predictions
+            preds.append({
+                'text': s['text'],
+                'intent': intent,
+                'probability': prob
+            })
 
         return preds
