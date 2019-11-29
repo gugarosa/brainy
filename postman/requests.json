@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "trainer",
+			"name": "trainer_spacy",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -42,7 +42,7 @@
 			"response": []
 		},
 		{
-			"name": "predictor",
+			"name": "predictor_spacy",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -72,6 +72,150 @@
 					"path": [
 						"api",
 						"predictor"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "trainer_fasttext",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"type\": \"fasttext\",\n\t\"language\": \"en\",\n\t\"samples\": [\n\t\t{\n\t\t\t\"text\": \"Who is Shaka Kan\",\n\t\t\t\"intents\": [\n\t\t\t\t{\n\t\t\t\t\t\"label\": \"PERSON\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"text\": \"I Like London and Berlin.\",\n\t\t\t\"intents\": [\n\t\t\t\t{\n\t\t\t\t\t\"label\": \"PLACE\"\n\t\t\t\t}\n\t\t\t]\n\t\t}\n    ],\n\t\"hyperparams\": {\n\t\t\"n_iterations\": 5,\n\t\t\"lr\": 0.1,\n\t\t\"dim\": 100,\n\t\t\"n_grams\": 1,\n\t\t\"window_size\": 5,\n\t\t\"loss\": \"softmax\"\n\t}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/trainer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"trainer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "predictor_fasttext",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": \"36a84c58-9fc2-4323-9213-2d961ef5e061\",\n\t\"type\": \"fasttext\",\n\t\"samples\": [\n\t\t{\n\t\t\t\"text\": \"I want to go to London.\"\n\t\t},\n\t\t{\n\t\t\t\"text\": \"Who is Shaka Kan\"\n\t\t}\n\t]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/predictor",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"predictor"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "tester_fasttext",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": \"a98b358c-348a-4608-a65a-d93c9a9aa501\",\n\t\"type\": \"fasttext\",\n\t\"samples\": [\n\t\t{\n\t\t\t\"text\": \"Who is Shaka Kan\",\n\t\t\t\"intents\": [\n\t\t\t\t{\n\t\t\t\t\t\"label\": \"PERSON\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"text\": \"I Like London and Berlin.\",\n\t\t\t\"intents\": [\n\t\t\t\t{\n\t\t\t\t\t\"label\": \"PLACE\"\n\t\t\t\t}\n\t\t\t]\n\t\t}\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/tester",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"tester"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "tester_spacy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": \"5b398d3e-9252-40eb-9cc0-eca1063b1d09\",\n\t\"type\": \"spacy\",\n\t\"samples\": [\n\t\t{\n\t\t\t\"text\": \"Who is Shaka Kan\",\n\t\t\t\"entities\": [\n\t\t\t\t{\n\t\t\t\t\t\"start\": 7,\n\t\t\t\t\t\"end\": 17,\n\t\t\t\t\t\"label\": \"PERSON\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"text\": \"I Like London and Berlin.\",\n\t\t\t\"entities\": [\n\t\t\t\t{\n\t\t\t\t\t\"start\": 7,\n\t\t\t\t\t\"end\": 13,\n\t\t\t\t\t\"label\": \"LOC\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"start\": 18,\n\t\t\t\t\t\"end\": 24,\n\t\t\t\t\t\"label\": \"LOC\"\n\t\t\t\t}\n\t\t\t]\n\t\t}\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/tester",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"tester"
 					]
 				}
 			},

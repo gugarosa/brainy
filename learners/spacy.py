@@ -11,9 +11,10 @@ import utils.constants as c
 import utils.file as f
 from learners.base import BaseLearner
 
+
 class SpacyLearner(BaseLearner):
     """A SpacyLearner is in charge of training, evaluating and predicting Spacy's models.
-    
+
     """
 
     def __init__(self):
@@ -26,7 +27,6 @@ class SpacyLearner(BaseLearner):
 
         # Override its parent class with the receiving parameters
         super(SpacyLearner, self).__init__(id=_id, type='spacy')
-
 
     def _parse(self, samples):
         """It parses an custom input JSON format to Spacy's format.
@@ -81,7 +81,6 @@ class SpacyLearner(BaseLearner):
         stash_dir.cleanup()
 
         return zip_path
-
 
     def load(self, model_path):
         """Loads a Spacy's model.
@@ -195,7 +194,14 @@ class SpacyLearner(BaseLearner):
         return model_path
 
     def evaluate(self):
-        """
+        """Evaluates a trained model.
+
+        Args:
+            samples (list): A list of samples to be evaluated.
+
+        Returns:
+            The metrics of the evaluation.
+
         """
 
         pass
