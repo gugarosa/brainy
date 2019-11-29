@@ -110,13 +110,8 @@ class SpacyLearner(BaseLearner):
 
         # Tries to learn a new model
         try:
-
-            logging.info(f'Creating a blank `{language}` model ...')
-
             # Creating a blank model
             self.model = spacy.blank(language)
-
-            logging.info('Adding NER to model pipeline ...')
 
             # Creating a NER pipeline
             ner = self.model.create_pipe('ner')
@@ -124,12 +119,8 @@ class SpacyLearner(BaseLearner):
             # Adding the pipeline to the model itself
             self.model.add_pipe(ner, last=True)
 
-            logging.info('Parsing samples to Spacy data structure ...')
-
             # Parsing samples to Spacy's format
             train_data = self._parse(samples)
-
-            logging.info('Adding entities to the model ...')
 
             # For each possible example in the data
             for _, d in train_data:
@@ -218,6 +209,8 @@ class SpacyLearner(BaseLearner):
             An already-structured predictions object.
 
         """
+
+        logging.info('Performing a new prediction ...')
 
         # Creates an empty list for the predictions
         preds = []

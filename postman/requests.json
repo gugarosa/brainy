@@ -6,20 +6,20 @@
 	},
 	"item": [
 		{
-			"name": "learner",
+			"name": "trainer",
 			"request": {
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
 						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
+						"type": "text",
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"language\": \"en\",\n\t\"samples\": [\n\t\t{\n\t\t\t\"text\": \"Who is Shaka Kan\",\n\t\t\t\"entities\": [\n\t\t\t\t{\n\t\t\t\t\t\"start\": 7,\n\t\t\t\t\t\"end\": 17,\n\t\t\t\t\t\"label\": \"PERSON\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"text\": \"I Like London and Berlin.\",\n\t\t\t\"entities\": [\n\t\t\t\t{\n\t\t\t\t\t\"start\": 7,\n\t\t\t\t\t\"end\": 13,\n\t\t\t\t\t\"label\": \"LOC\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"start\": 18,\n\t\t\t\t\t\"end\": 24,\n\t\t\t\t\t\"label\": \"LOC\"\n\t\t\t\t}\n\t\t\t]\n\t\t}\n    ],\n\t\"hyperparams\": {\n\t\t\"n_iterations\": 100,\n\t\t\"dropout\": 0.5,\n\t\t\"lr\": 0.001,\n\t\t\"batch_size\": 32\n\t}\n}",
+					"raw": "{\n\t\"type\": \"spacy\",\n\t\"language\": \"en\",\n\t\"samples\": [\n\t\t{\n\t\t\t\"text\": \"Who is Shaka Kan\",\n\t\t\t\"entities\": [\n\t\t\t\t{\n\t\t\t\t\t\"start\": 7,\n\t\t\t\t\t\"end\": 17,\n\t\t\t\t\t\"label\": \"PERSON\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"text\": \"I Like London and Berlin.\",\n\t\t\t\"entities\": [\n\t\t\t\t{\n\t\t\t\t\t\"start\": 7,\n\t\t\t\t\t\"end\": 13,\n\t\t\t\t\t\"label\": \"LOC\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"start\": 18,\n\t\t\t\t\t\"end\": 24,\n\t\t\t\t\t\"label\": \"LOC\"\n\t\t\t\t}\n\t\t\t]\n\t\t}\n    ],\n\t\"hyperparams\": {\n\t\t\"n_iterations\": 100,\n\t\t\"dropout\": 0.5,\n\t\t\"lr\": 0.001,\n\t\t\"batch_size\": 32\n\t}\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -27,7 +27,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/learner",
+					"raw": "http://localhost:8080/api/trainer",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -35,7 +35,7 @@
 					"port": "8080",
 					"path": [
 						"api",
-						"learner"
+						"trainer"
 					]
 				}
 			},
@@ -55,7 +55,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"_id\": \"08eed4cd-c579-4a54-b6a8-c1b7fb113362\",\n\t\"samples\": [\n\t\t{\n\t\t\t\"text\": \"I want to go to London.\"\n\t\t},\n\t\t{\n\t\t\t\"text\": \"Who is Shaka Kan\"\n\t\t}\n\t]\n}",
+					"raw": "{\n\t\"id\": \"5b398d3e-9252-40eb-9cc0-eca1063b1d09\",\n\t\"type\": \"spacy\",\n\t\"samples\": [\n\t\t{\n\t\t\t\"text\": \"I want to go to London.\"\n\t\t},\n\t\t{\n\t\t\t\"text\": \"Who is Shaka Kan\"\n\t\t}\n\t]\n}",
 					"options": {
 						"raw": {
 							"language": "json"

@@ -2,7 +2,6 @@ import datetime
 import logging
 import os
 
-import learners.spacy as s
 from learners.spacy import SpacyLearner
 
 
@@ -49,6 +48,8 @@ class TrainerProcessor:
             task (dict): The task to be consumed.
 
         """
+
+        logging.info(f"Consuming a `{task['type']}` task ...")
 
         # Checks if the task's type is from Spacy
         if task['type'] == 'spacy':
