@@ -4,11 +4,11 @@ import logging
 import tornado
 
 from handlers.base import BaseHandler
-from processors.learner_processor import LearnerProcessor
+from processors.trainer_processor import TrainerProcessor
 
 
-class LearnerHandler(BaseHandler):
-    """A LearnerHandler defines all possible methods for learning a model.
+class TrainerHandler(BaseHandler):
+    """A TrainerHandler defines all possible methods for learning a model.
 
     """
 
@@ -24,7 +24,7 @@ class LearnerHandler(BaseHandler):
         self.process_manager = kwargs.get('process_manager')
 
         # Creates the processor for this handler
-        self.processor = LearnerProcessor
+        self.processor = TrainerProcessor
 
     async def post(self):
         """It defines the POST request for this handler.
@@ -58,7 +58,7 @@ class LearnerHandler(BaseHandler):
 
         # Tries to add a new process to the pool
         try:
-            logging.info('Adding learner task to the pool ...')
+            logging.info('Adding trainer task to the pool ...')
 
             # Adding process to the pool
             self.process_manager.add_process(

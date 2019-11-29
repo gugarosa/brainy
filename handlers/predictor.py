@@ -3,9 +3,9 @@ import os
 
 import tornado
 
+import learners.spacy as s
 import utils.constants as c
 import utils.file as f
-import utils.spacy as s
 from handlers.base import BaseHandler
 
 

@@ -4,8 +4,9 @@ from concurrent.futures import ProcessPoolExecutor
 from tornado.web import Application
 
 import utils.constants as c
-from handlers.learner import LearnerHandler
 from handlers.predictor import PredictorHandler
+from handlers.tester import TesterHandler
+from handlers.trainer import TrainerHandler
 from utils.process_manager import ProcessManager
 
 
@@ -25,8 +26,8 @@ class Server(Application):
         # Defining the process manager
         self.process_manager = ProcessManager()
 
-        # Creating a pool of learning workers
-        self.learner_pool = ProcessPoolExecutor(max_workers=int(c.LEARNER_WORKERS))
+        # Creating a pool of training workers
+        self.trainer_pool = ProcessPoolExecutor(max_workers=int(c.TRAINER_WORKERS))
 
         # Defining own arguments to be avaliable for the class
         args = {
@@ -36,7 +37,8 @@ class Server(Application):
 
         # Defining the handlers that will handle the requests
         handlers = [
-            (r'/api/learner', LearnerHandler, args),
+            (r'/api/trainer', TrainerHandler, args),
+            (r'/api/tester', TesterHandler, args),
             (r'/api/predictor', PredictorHandler, args)
         ]
 
@@ -53,5 +55,5 @@ class Server(Application):
 
         logging.warning("Shutting down workers pool ...")
 
-        # Actually shutdowns the learner pool
-        self.learner_pool.shutdown(blocking_call)
+        # Actually shutdowns the trainer pool
+        self.trainer_pool.shutdown(blocking_call)

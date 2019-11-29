@@ -10,8 +10,11 @@ config.read('config.ini')
 # API's port
 PORT = config.get('API', 'PORT')
 
-# Amount of learner workers
-LEARNER_WORKERS = config.get('WORKERS', 'LEARNER')
+# Amount of trainer workers
+TRAINER_WORKERS = config.get('WORKERS', 'TRAINER')
+
+# Amount of tester workers
+TESTER_WORKERS = config.get('WORKERS', 'TESTER')
 
 # Maximum load of GPU per process
 GPU_MAX_LOAD = config.get('GPU', 'MAX_LOAD')

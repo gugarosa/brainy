@@ -2,11 +2,11 @@ import datetime
 import logging
 import os
 
-import utils.spacy as s
+import learners.spacy as s
 
 
-class LearnerProcessor:
-    """A LearnerProcessor class is in charge of consuming the learning task.
+class TrainerProcessor:
+    """A TrainerProcessor class is in charge of consuming the learning task.
 
     """
 
