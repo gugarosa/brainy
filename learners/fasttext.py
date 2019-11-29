@@ -27,7 +27,6 @@ class FasttextLearner(BaseLearner):
         # Override its parent class with the receiving parameters
         super(FasttextLearner, self).__init__(id=_id, type='fasttext')
 
-
     def _parse(self, samples):
         """It parses an custom input JSON format to Fasttext's format.
 
@@ -72,7 +71,8 @@ class FasttextLearner(BaseLearner):
         model_path = os.path.join(c.DEFAULT_PATH, self.id)
 
         # Saves the model to disk
-        self.model.save_model(os.path.join(stash_dir.name, c.DEFAULT_FASTTEXT_MODEL))
+        self.model.save_model(os.path.join(
+            stash_dir.name, c.DEFAULT_FASTTEXT_MODEL))
 
         # Zips the file
         zip_path = f.zip_file(stash_dir.name, model_path + '.zip', self.id)
@@ -100,7 +100,6 @@ class FasttextLearner(BaseLearner):
         # Closes the file
         output_file.close()
 
-
     def load(self, model_path):
         """Loads a Fasttext's model.
 
@@ -112,7 +111,8 @@ class FasttextLearner(BaseLearner):
         logging.info(f'Loading model from: {model_path}')
 
         # Actually loads the model
-        self.model = fasttext.load_model(os.path.join(model_path, c.DEFAULT_FASTTEXT_MODEL))
+        self.model = fasttext.load_model(
+            os.path.join(model_path, c.DEFAULT_FASTTEXT_MODEL))
 
     def fit(self, language, samples, hyperparams):
         """Learns a new Intent Classification model through Fasttext.
@@ -133,13 +133,50 @@ class FasttextLearner(BaseLearner):
             train_data = self._parse(samples)
 
             # Creates a temporary file
-            train = tempfile.NamedTemporaryFile('w', delete=False, encoding='utf-8')
+            train = tempfile.NamedTemporaryFile(
+                'w', delete=False, encoding='utf-8')
 
             # Dumps the data to a temporary file
             self._write_file(train_data, train)
 
+            # Check if hyperparams are avaliable
+            # Checking number of iterations
+            if 'n_iterations' not in hyperparams:
+                hyperparams['n_iterations'] = 5
+
+            # Checking learning rate
+            if 'lr' not in hyperparams:
+                hyperparams['lr'] = 0.1
+
+            # Checking word vectors dimension
+            if 'dim' not in hyperparams:
+                hyperparams['dim'] = 100
+
+            # Checking word n-grams size
+            if 'n_grams' not in hyperparams:
+                hyperparams['n_grams'] = 1
+
+            # Checking window size
+            if 'window_size' not in hyperparams:
+                hyperparams['window_size'] = 5
+
+            # Checking loss function
+            if 'loss' not in hyperparams:
+                hyperparams['loss'] = 'softmax'
+
+            logging.info(f'Training model with: {hyperparams}')
+
+            # Applying hyperparameters to local variables
+            epochs = hyperparams['n_iterations']
+            lr = hyperparams['lr']
+            dim = hyperparams['dim']
+            n_grams = hyperparams['n_grams']
+            ws = hyperparams['window_size']
+            loss = hyperparams['loss']
+
             # Trains the model
-            self.model = fasttext.train_supervised(input=train.name)
+            self.model = fasttext.train_supervised(
+                input=train.name, lr=lr, dim=dim, ws=ws, epoch=epochs, wordNgrams=n_grams, loss=loss)
 
             # Persisting model to disk
             model_path = self._persist()
@@ -180,19 +217,28 @@ class FasttextLearner(BaseLearner):
         # Iterate through every possible sample
         for s in samples:
             # Predicts using the model
-            res = self.model.predict(s['text'])
+            res = self.model.predict(s['text'], k=-1)
 
-            # Gathering and formatting the prediction's intent
-            intent = res[0][0].replace('__label__', '').upper()
+            # Creating an empty list of intents
+            intents = []
 
-            # Gathering and formatting the prediction's intent probability
-            prob = res[1][0]
+            for i, p in zip(res[0], res[1]):
+                # Gathering and formatting the prediction's intent
+                intent = i.replace('__label__', '').upper()
+
+                # Gathering and formatting the prediction's intent probability
+                prob = p
+
+                # Appending the current intent to the intents list
+                intents.append({
+                    'label': intent,
+                    'probability': prob
+                })
 
             # Appends the prediction to the predictions
             preds.append({
                 'text': s['text'],
-                'intent': intent,
-                'probability': prob
+                'intents': intents
             })
 
         return preds
