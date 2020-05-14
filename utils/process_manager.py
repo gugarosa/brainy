@@ -235,7 +235,7 @@ class ProcessManager():
                     # If the device configuration is set to the GPU
                     if device.get("gpu"):
                         # Creates the process
-                        p = Process(target=processor.consume, name="smart-learner_gpu-" +
+                        p = Process(target=processor.consume, name="brainy_gpu-" +
                                     str(len(gpu_pool) + 1), args=(job["data"],), daemon=False)
 
                         # Starts the process
@@ -249,7 +249,7 @@ class ProcessManager():
                     # If the device configuration is set to the CPU
                     else:
                         # Creates the process
-                        p = Process(target=processor.consume, name="smart-learner_cpu-" +
+                        p = Process(target=processor.consume, name="brainy_cpu-" +
                                     str(len(cpu_pool) + 1), args=(job["data"],), daemon=False)
 
                         # Starts the process
