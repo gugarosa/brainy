@@ -1,4 +1,4 @@
-# Brainy
+# Brainy: Intelligent Machine Learning Training API
 
 ## Welcome to Brainy.
 
