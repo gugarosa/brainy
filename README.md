@@ -2,7 +2,7 @@
 
 ## Welcome to Brainy.
 
-Lorem ipsum.
+This is an easy-to-use solution for training, testing, and predicting models on-demand. Brainy offers a high-level API where requests can be made via JSON in order to train an NLP-based model. Additionally, after the model has been trained and persisted on disk, it is possible to be further loaded and used for new predictions and tests. Please, follow along the next sections in order to learn more about this excellent tool.
 
 Brainy is compatible with: **Python 3.6+**.
 
@@ -13,7 +13,7 @@ Brainy is compatible with: **Python 3.6+**.
 1. The very first information you need is in the very **next** section.
 2. **Installing** is also easy if you wish to read the code and bump yourself into, follow along.
 3. Note that there might be some **additional** steps in order to use our solutions.
-4. If there is a problem, please do not **hesitate**, call us.
+4. If there is a problem, please do not **hesitate**. Call us.
 
 ---
 
@@ -49,7 +49,7 @@ Brainy is based on the following structure, and you should pay attention to its 
 
 ### Handlers
 
-Any route that needs to be used within this API should be handled by this package.
+This package should handle any route that needs to be used within this API.
 
 ### Learners
 
@@ -57,15 +57,15 @@ One can define a custom learner or use the pre-defined ones. The learner stands 
 
 ### Postman
 
-A Postman collection of possible requests that are available within this API.
+This package provides a collection of possible requests that are available within this API.
 
 ### Processors
 
-The processors are responsible for invoking and consuming the tasks queues, providing a callback when the task has been invoked, consumed and finished.
+The processors are responsible for invoking and consuming the task queues, providing a callback when the task has been invoked, consumed, and finished.
 
 ### Utils
 
-An utilities package stands for common things shared across the application. It is better to implement once and use as you wish than re-implementing the same thing over and over again.
+A utilities package stands for common things shared across the application. It is better to implement once and use it as you wish than re-implementing the same thing over and over again.
 
 ---
 
@@ -89,7 +89,7 @@ After building it, it is now possible to run with the following command:
 docker run -p 8080:8080 --name brainy brainy:latest
 ```
 
-Note that we are assuming that the API's uses port 8080 and that this port will be mapped as 8080 in the host.
+Note that we are assuming that the API uses port 8080 and that this port will be mapped as 8080 in the host.
 
 
 ### Docker-Compose
@@ -116,7 +116,7 @@ docker-compose down
 
 ## Environment configuration
 
-Note that sometimes, there is a need for additional implementation. If needed, from here you will be the one to know all of its details.
+Note that sometimes, there is a need for additional implementation. If needed, from here, you will be the one to know all of its details.
 
 ### Ubuntu
 
