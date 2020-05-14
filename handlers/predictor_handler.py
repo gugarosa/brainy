@@ -5,9 +5,9 @@ import tornado
 
 import utils.constants as c
 import utils.file as f
-from handlers.base import BaseHandler
-from learners.fasttext import FasttextLearner
-from learners.spacy import SpacyLearner
+from handlers.base_handler import BaseHandler
+from learners.fasttext_learner import FasttextLearner
+from learners.spacy_learner import SpacyLearner
 
 
 class PredictorHandler(BaseHandler):

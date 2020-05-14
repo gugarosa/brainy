@@ -4,9 +4,9 @@ from concurrent.futures import ProcessPoolExecutor
 from tornado.web import Application
 
 import utils.constants as c
-from handlers.predictor import PredictorHandler
-from handlers.tester import TesterHandler
-from handlers.trainer import TrainerHandler
+from handlers.predictor_handler import PredictorHandler
+from handlers.tester_handler import TesterHandler
+from handlers.trainer_handler import TrainerHandler
 from utils.process_manager import ProcessManager
 
 

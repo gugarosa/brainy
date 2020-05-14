@@ -3,12 +3,12 @@ import logging
 
 import tornado
 
-from handlers.base import BaseHandler
-from processors.trainer_processor import TrainerProcessor
+from handlers.base_handler import BaseHandler
+from processors.tester_processor import TesterProcessor
 
 
-class TrainerHandler(BaseHandler):
-    """A TrainerHandler defines all possible methods for learning a model.
+class TesterHandler(BaseHandler):
+    """A TesterHandler is in charge of testing a model.
 
     """
 
@@ -24,7 +24,7 @@ class TrainerHandler(BaseHandler):
         self.process_manager = kwargs.get('process_manager')
 
         # Creates the processor for this handler
-        self.processor = TrainerProcessor
+        self.processor = TesterProcessor
 
     async def post(self):
         """It defines the POST request for this handler.
@@ -37,24 +37,20 @@ class TrainerHandler(BaseHandler):
         # Getting request object
         req = tornado.escape.json_decode(self.request.body)
 
-        # Gathering the task's type
-        _type = req['type']
+        # Gathering the model's identifier
+        _id = req['id']
 
-        # Gathering the model's language
-        language = req['language']
+        # Gathering the model's type
+        _type = req['type']
 
         # Gathering the samples
         samples = req['samples']
 
-        # Gathering the hyperparams
-        hyperparams = req['hyperparams']
-
         # Creating the data object
         data = {
+            'id': _id,
             'type': _type,
-            'language': language,
             'samples': samples,
-            'hyperparams': hyperparams,
             'callback': {
                 'start_time': datetime.datetime.utcnow().isoformat()
             }
@@ -62,7 +58,7 @@ class TrainerHandler(BaseHandler):
 
         # Tries to add a new process to the pool
         try:
-            logging.info('Adding trainer task to the pool ...')
+            logging.info('Adding tester task to the pool ...')
 
             # Adding process to the pool
             self.process_manager.add_process(

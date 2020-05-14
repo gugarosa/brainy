@@ -19,15 +19,53 @@ Brainy is compatible with: **Python 3.6+**.
 
 ## Getting started: 60 seconds with Brainy
 
+First of all. Code is commented. Yes, everything is commented. Just browse to any file, chose your subpackage, and follow it. We have high-level code for most tasks we could think.
+
+Alternatively, if you wish to learn even more, please take a minute:
+
+Brainy is based on the following structure, and you should pay attention to its tree:
+
+```
+- brainy
+    - handlers
+        - base_handler
+        - predictor_handler
+        - tester_handler
+        - trainer_handler
+    - learners
+        - base_learner
+        - fasttext_learner
+        - spacy_learner
+    - postman
+    - processors
+        - tester_processor
+        - trainer_processor
+    - utils
+        - constants
+        - file
+        - process_manager
+        - server
+```
+
 ### Handlers
+
+Any route that needs to be used within this API should be handled by this package.
 
 ### Learners
 
+One can define a custom learner or use the pre-defined ones. The learner stands for the machine learning toolkit or algorithm used to perform the training, testing and prediction processes.
+
 ### Postman
+
+A Postman collection of possible requests that are available within this API.
 
 ### Processors
 
+The processors are responsible for invoking and consuming the tasks queues, providing a callback when the task has been invoked, consumed and finished.
+
 ### Utils
+
+An utilities package stands for common things shared across the application. It is better to implement once and use as you wish than re-implementing the same thing over and over again.
 
 ---
 
@@ -35,11 +73,17 @@ Brainy is compatible with: **Python 3.6+**.
 
 We believe that everything has to be easy. Not tricky or daunting, Brainy will be the one-to-go package that you will need, from the very first installation to the daily-tasks implementing needs.
 
+Remember that you need to adjust `config.ini.example` according to your needs and to make sure that `docker` or `docker-compose` are installed and accessible from the command line.
+
 ### Docker
+
+First of all, you need to build the container's image, as follows:
 
 ```
 docker build --tag brainy .
 ```
+
+After building it, it is now possible to run with the following command:
 
 ```
 docker run -p 8080:8080 --name brainy brainy:latest
@@ -49,6 +93,8 @@ Note that we are assuming that the API's uses port 8080 and that this port will 
 
 
 ### Docker-Compose
+
+First of all, you need to build the container's image, as follows:
 
 ```
 docker-compose build
@@ -88,6 +134,6 @@ No specific additional commands needed.
 
 ## Support
 
-We know that we do our best, but it is inevitable to acknowledge that we make mistakes. If you ever need to report a bug, report a problem, talk to us, please do so! We will be available at our bests at this repository or gth.rosa@uol.com.br.
+We know that we do our best, but it is inevitable to acknowledge that we make mistakes. If you ever need to report a bug, report a problem, talk to us, please do so! We will be available at our bests at this repository or gustavo.rosa@unesp.br.
 
 ---

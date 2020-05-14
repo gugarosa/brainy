@@ -1,4 +1,4 @@
-class BaseLearner():
+class BaseLearner:
     """A BaseLearner class is in charge of defining the basic methods
         that a child learner should implement.
 

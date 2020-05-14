@@ -2,8 +2,8 @@ import datetime
 import logging
 import os
 
-from learners.fasttext import FasttextLearner
-from learners.spacy import SpacyLearner
+from learners.fasttext_learner import FasttextLearner
+from learners.spacy_learner import SpacyLearner
 
 
 class TrainerProcessor:

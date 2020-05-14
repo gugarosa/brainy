@@ -4,8 +4,8 @@ import os
 
 import utils.constants as c
 import utils.file as f
-from learners.fasttext import FasttextLearner
-from learners.spacy import SpacyLearner
+from learners.fasttext_learner import FasttextLearner
+from learners.spacy_learner import SpacyLearner
 
 
 class TesterProcessor:

@@ -7,7 +7,7 @@ import fasttext
 
 import utils.constants as c
 import utils.file as f
-from learners.base import BaseLearner
+from learners.base_learner import BaseLearner
 
 
 class FasttextLearner(BaseLearner):
